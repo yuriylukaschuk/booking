@@ -44,7 +44,7 @@ class BookingApp {
 			phone: document.getElementById('phone').value.trim(),
 			email: document.getElementById('email').value.trim(),
 			date: document.getElementById('date').value,
-			csrf_token: this.csrfToken
+			// csrf_token: this.csrfToken
 		};
 		
 		submitBtn.disabled = true;
@@ -255,11 +255,11 @@ class BookingApp {
 				'Content-Type': 'application/json',
 			}
 		};
-
+		/*
 		if (data && this.csrfToken) {
 			options.headers['X-CSRF-Token'] = this.csrfToken;
 		}
-
+		*/
 		if (data) {
 			options.body = JSON.stringify(data);
 			url = `${this.apiUrl}?action=${action}`;
@@ -267,12 +267,12 @@ class BookingApp {
 
 		const response = await fetch(url, options);
 		const result = await response.json();
-
+		/*
 		if (result.csrf_token) {
 			this.csrfToken = result.csrf_token;
 			document.getElementById('csrfToken').value = this.csrfToken;
 		}
-
+		*/
 		return result;
 	}
 

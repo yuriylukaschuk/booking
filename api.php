@@ -15,7 +15,7 @@ $pdo = $db->getConnection();
 
 $action = $_GET['action'] ?? '';
 
-
+/*
 // Генерация CSRF токена для GET запросов
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && $action === 'list') {
 	$csrfToken = CSRFProtection::getToken();
@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action !== 'list') {
 		exit;
 	}
 }
+*/
 
 function validateDate($date) {
 	$today = new DateTime();
@@ -73,11 +74,11 @@ function sendResponse($statusCode, $data = null, $message = '') {
 	$response = ['success' => $statusCode >= 200 && $statusCode < 300];
 	if ($message) $response['message'] = $message;
 	if ($data !== null) $response['data'] = $data;
-
+	/*
 	if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($GLOBALS['csrfToken'])) {
 		$response['csrf_token'] = $GLOBALS['csrfToken'];
 	}
-	
+	*/
 	echo json_encode($response);
 	exit;
 }
@@ -144,6 +145,7 @@ try {
 		case 'list':
 			$stmt = $pdo->query("SELECT * FROM bookings ORDER BY date DESC");
 			$bookings = $stmt->fetchAll();
+			// $GLOBALS['csrfToken'] = CSRFProtection::getToken();
 			sendResponse(200, $bookings);
 			break;
 			

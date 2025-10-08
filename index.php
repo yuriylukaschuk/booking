@@ -14,7 +14,7 @@
 			<h2 id="form-title">Бронирование номера</h2>
 			<form id="bookingForm">
 				<input type="hidden" id="bookingId">
-				<input type="hidden" id="csrfToken" name="csrf_token">
+				<!-- <input type="hidden" id="csrfToken" name="csrf_token"> -->
 				
 				<div class="form-group">
 					<label for="name">Имя:</label>
