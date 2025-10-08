@@ -15,7 +15,6 @@ $pdo = $db->getConnection();
 
 $action = $_GET['action'] ?? '';
 
-/*
 // Генерация CSRF токена для GET запросов
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && $action === 'list') {
 	$csrfToken = CSRFProtection::getToken();
@@ -39,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action !== 'list') {
 		exit;
 	}
 }
-*/
 
 function validateDate($date) {
 	$today = new DateTime();
@@ -74,11 +72,9 @@ function sendResponse($statusCode, $data = null, $message = '') {
 	$response = ['success' => $statusCode >= 200 && $statusCode < 300];
 	if ($message) $response['message'] = $message;
 	if ($data !== null) $response['data'] = $data;
-	/*
 	if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($GLOBALS['csrfToken'])) {
 		$response['csrf_token'] = $GLOBALS['csrfToken'];
 	}
-	*/
 	echo json_encode($response);
 	exit;
 }
@@ -108,7 +104,7 @@ try {
 				sendResponse(400, null, 'Неверная дата');
 			}
 
-			sleep(5);
+			// sleep(5);
 			
 			$pdo->beginTransaction();
 			try {
@@ -145,14 +141,14 @@ try {
 		case 'list':
 			$stmt = $pdo->query("SELECT * FROM bookings ORDER BY date DESC");
 			$bookings = $stmt->fetchAll();
-			// $GLOBALS['csrfToken'] = CSRFProtection::getToken();
+			$GLOBALS['csrfToken'] = CSRFProtection::getToken();
 			sendResponse(200, $bookings);
 			break;
 			
 		case 'update':
 			$input = json_decode(file_get_contents('php://input'), true);
 			
-			sleep(5);
+			// sleep(5);
 
 			if (!isset($input['id'], $input['name'], $input['phone'], $input['email'], $input['date'])) {
 				sendResponse(400, null, 'Отсутствуют обязательные поля');
@@ -213,7 +209,7 @@ try {
 		case 'delete':
 			$input = json_decode(file_get_contents('php://input'), true);
 
-			sleep(5);
+			// sleep(5);
 
 			if (!isset($input['id'])) {
 				sendResponse(400, null, 'Отсутствует идентификатор бронирования');
